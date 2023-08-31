@@ -1,0 +1,15 @@
+[Unit]
+Description=RaspberryPi automated fan controll
+After=multi-user.target
+
+[Service]
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/scripts/fan.py
+WorkingDirectory=/scripts/
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target
