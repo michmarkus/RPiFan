@@ -5,14 +5,14 @@ import time
 import os
 import sys, signal
 
-pin = 0
+pin = 0    # Set pin of blue wire (PWM)
 zastavit = True
 stop_temp = 40
 start_temp = 50
 max_temp = 80
 min_dc = 10
 step = 10
-freq = 0
+freq = 25000    # PWM specification, adjust if needed
 
 def konec(sig, frame):
     GPIO.cleanup()
@@ -49,7 +49,7 @@ try:
             dc = min_dc + (temp - stop_temp) * ((100-min_dc)/(max_temp-stop_temp))
             #dc = (dc // step) * step
             if dc0 == 0:
-                print("zmena (rozdil: " + str(abs(dc - dc0)) + "%) (rychlost: " + str(dc) + "%) (teplota: " + str(temp) + "°C)")
+                print("zmena (rozdil: " + str(abs(dc - dc0)) + "%) (rychlost: " + str(dc) + "%) (teplota: " + str(temp) + "Â°C)")
                 dc0 = dc
                 fan.ChangeDutyCycle(dc)
                 time.sleep(0.5)
@@ -57,7 +57,7 @@ try:
         if temp > max_temp:
             dc = 100
         if abs(dc - dc0) >= step:
-            print("zmena (rozdil: " + str(abs(dc - dc0)) + "%) (rychlost: " + str(dc) + "%) (teplota: " + str(temp) + "°C)")
+            print("zmena (rozdil: " + str(abs(dc - dc0)) + "%) (rychlost: " + str(dc) + "%) (teplota: " + str(temp) + "Â°C)")
             dc0 = dc
             fan.ChangeDutyCycle(dc)
         print("temp = " + str(temp) + ", DC = " + str(dc))
